@@ -1,0 +1,166 @@
+body {
+    background-color: #121212;
+    background-image: url("/images/ninja.jpg");
+     background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation */
+.navbar {
+    background-color: #1f1f1f !important;
+    border-bottom: 1px solid #2c2c2c;
+}
+
+.nav-link {
+    color: #aaa !important;
+    transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 14px; /* oder dein Wunschwert */
+  display: flex;
+  align-items: center;
+  
+}
+
+.navbar-nav .nav-item:last-child {
+  margin-right: 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #ff0088 !important;
+    font-weight: bold;
+}
+
+/* Buttons */
+button, .btn {
+    background-color: #ff0088;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btndanger {
+    background-color: #ff4d4d;
+}
+
+.btnback{
+    background-color: #ff0088;
+    color: #ffffff;
+    text-align: left;
+}
+
+button:hover, .btn:hover {
+    background-color: #ff0088;
+}
+
+/* Spielkarten / Container */
+.card {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+h1, h2, h3 {
+    color: #ffffff;
+}
+
+p {
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* Links */
+a {
+    color: #ff0088;
+    text-decoration: none;
+    text-align: left;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Optional: Scrollbar-Design */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #ff0088;
+    border-radius: 4px;
+}
+.headercontainer {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+  .features-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #ff0088;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  li {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+  }
+
+    ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  li {
+    margin-bottom: 0.0rem;
+    font-size: 1.1rem;
+  }
+
+
+
+  .game-card {
+    border: 1px solid #555;
+    height: 100%;
+    background-color: #222;
+    color: white;
+    margin: 1em 0;
+  }
+  .details {
+    padding: 0.5em;
+  }
+  .title {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  .img-fluid {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
