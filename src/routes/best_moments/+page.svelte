@@ -1,6 +1,4 @@
 <script>
-    import { Server } from '@sveltejs/kit';
-
   let { data, form } = $props();
   let title = $state('');
   let description = $state('');
