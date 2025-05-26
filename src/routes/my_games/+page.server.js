@@ -11,3 +11,28 @@ export async function load() {
     throw error(500, "Fehler beim Laden deiner Spiele.");
   }
 }
+
+
+export const actions = {
+  addReview: async ({ request }) => {
+    const data = await request.formData();
+    const gameId = data.get('gameId');
+    const review = data.get('review');
+    if (!review?.trim()) return { error: 'Review darf nicht leer sein.' };
+    await db.addReviewToGame(gameId, review);
+    return { success: true };
+  },
+  deleteReview: async ({ request }) => {
+    const data = await request.formData();
+    const gameId = data.get('gameId');
+    const review = data.get('review');
+    await db.deleteReviewFromGame(gameId, review);
+    return { success: true };
+  },
+  deleteGame: async ({ request }) => {
+    const data = await request.formData();
+    const gameId = data.get('gameId');
+    await db.deleteGame(gameId);
+    return { success: true };
+  }
+};

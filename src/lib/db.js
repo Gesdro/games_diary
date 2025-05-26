@@ -201,6 +201,40 @@ export async function addToMyGames(gameId) {
 
 
 
+//NEUE FUNKTIONEN 
+////////////////////////////
+ async function addReviewToGame(gameId, review) {
+  const { db } = await connectToDatabase();
+  return db.collection('my_games').updateOne(
+    { _id: new ObjectId(gameId) },
+    { $push: { reviews: review } }
+  );
+}
+ async function deleteReviewFromGame(gameId, review) {
+  const { db } = await connectToDatabase();
+  return db.collection('my_games').updateOne(
+    { _id: new ObjectId(gameId) },
+    { $pull: { reviews: review } }
+  );
+}
+ async function deleteMyGame(gameId) {
+  const { db } = await connectToDatabase();
+  return db.collection('my_games').deleteOne({ _id: new ObjectId(gameId) });
+}
+ async function getAllGames() {
+  const { db } = await connectToDatabase();
+  return db.collection('my_games').find().toArray();
+}
+
+
+
+
+
+
+
+
+
+
 // export all functions so that they can be used in other files
 export default {
   getGames,
@@ -208,5 +242,9 @@ export default {
   deleteGame,
   addToMyGames,
   createGameByName,
-  loadMyGames
+  loadMyGames,
+  addReviewToGame,
+  deleteReviewFromGame,
+  deleteMyGame,
+  getAllGames
 };
