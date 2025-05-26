@@ -1,16 +1,16 @@
 <script>
   import MyGamesCard from '$lib/components/MyGamesCard.svelte';
-  export let data;  // <- SvelteKit gibt `data` immer als export
+  let { data } = $props();
   let selectedTag = 'All';
-  let searchQuery = '';
+  let searchQuery = $state('');
 
-  $: filteredGames = data.games.filter(game => {
+  let filteredGames = $derived(data.games.filter(game => {
     const tagMatch =
       selectedTag === 'All' ||
       game.tags?.some(tag => tag.trim().toLowerCase() === selectedTag.toLowerCase());
     const nameMatch = game.title?.toLowerCase().includes(searchQuery.toLowerCase());
     return tagMatch && nameMatch;
-  });
+  }));
 
 </script>
 <div class="headercontainer mt-3">

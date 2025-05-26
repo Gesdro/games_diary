@@ -1,8 +1,7 @@
 <script>
-  export let data;
-  export let form;
-  let title = '';
-  let description = '';
+  let { data, form } = $props();
+  let title = $state('');
+  let description = $state('');
   let image;
 </script>
 
@@ -20,7 +19,7 @@
   <label>
     <span>Description*</span>
     <!-- svelte-ignore element_invalid_self_closing_tag -->
-    <textarea name="description" bind:value={description} placeholder="Describe your best moments..." rows="3" required />
+    <textarea name="description" bind:value={description} placeholder="Describe your best moments..." rows="3" required></textarea>
   </label>
   <label class="file-upload">
     <span>Picture (.jpg)*</span>

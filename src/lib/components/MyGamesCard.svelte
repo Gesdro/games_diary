@@ -1,6 +1,6 @@
 <script>
-  export let game;
-  let newReview = '';
+  let { game } = $props();
+  let newReview = $state('');
 </script>
 
 <div class="game-card">
