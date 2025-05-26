@@ -19,6 +19,10 @@ import MyGamesCard from '$lib/components/MyGamesCard.svelte'; // MyGamesCard wir
   });
 </script>
 
+
+
+<h1>My Games </h1>
+
 <div>
 <input
   type="text"
@@ -27,8 +31,6 @@ import MyGamesCard from '$lib/components/MyGamesCard.svelte'; // MyGamesCard wir
   bind:value={searchQuery} 
 /> <!-- Suchfeld für die Spiele, wird durch den State direkt angepasst und ist reaktiv -->
 </div>  
-
-<h1>My Games </h1>
 
 <div class="row mt-3">
   {#each filteredGames() as game}

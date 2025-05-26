@@ -11,6 +11,7 @@ export async function POST({ params, request }) {
     return new Response('Review darf nicht leer sein.', { status: 400 }); // Überprüfen, ob die Review leer ist
   }
 
+
   try {
     const { db } = await connectToDatabase(); // Verbindung zur Datenbank herstellen, um das Review in der COllection 'my_games' zu speichern
 
@@ -27,5 +28,32 @@ export async function POST({ params, request }) {
   } catch (err) {
     console.error('Review speichern fehlgeschlagen:', err); // Troubleshooting
     return new Response('Fehler beim Speichern des Reviews.', { status: 500 });
+  }
+}
+
+
+export async function DELETE({ params, request }) {
+  const { id } = params;
+  const { review } = await request.json(); // Review-Text kommt im Body
+
+  if (!review || !review.trim()) {
+    return new Response('Review darf nicht leer sein.', { status: 400 });
+  }
+
+  try {
+    const { db } = await connectToDatabase();
+    const result = await db.collection('my_games').updateOne(
+      { _id: new ObjectId(id) },
+      { $pull: { reviews: review } } // $pull entfernt das Review (exakt den Text)
+    );
+
+    if (result.modifiedCount === 0) {
+      return new Response('Kein Spiel oder Review gefunden.', { status: 404 });
+    }
+
+    return new Response(null, { status: 204 }); // 204 = erfolgreich, aber kein Body
+  } catch (err) {
+    console.error('Review löschen fehlgeschlagen:', err);
+    return new Response('Fehler beim Löschen des Reviews.', { status: 500 });
   }
 }

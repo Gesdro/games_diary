@@ -29,6 +29,21 @@
     }
   }
 
+    async function deleteReview(review) {
+    const confirmDelete = confirm("Delete this review?");
+    if (!confirmDelete) return;
+    const res = await fetch(`/api/my_games/${game._id}/review`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ review })
+    });
+    if (res.ok) {
+      location.reload();
+    } else {
+      alert('Error while deleting the review.');
+    }
+  }
+
 </script>
 
 
@@ -43,15 +58,22 @@
     <p><strong>Progress:</strong> {game.progress || 'No Data'}</p>
 
 <p><strong>Reviews:</strong></p>
-<ul> <!-- Liste der Reviews, die in der Datenbank gespeichert sind -->
-  {#if game.reviews && game.reviews.length > 0} 
-    {#each game.reviews as review}
-      <li>{review}</li>
-    {/each}
-  {:else}
-    <li><p>No reviews yet.</p></li>
-  {/if}
-</ul>
+    <ul>
+      {#if game.reviews && game.reviews.length > 0} 
+        {#each game.reviews as review}
+          <li style="margin-bottom: 1em; display: flex; align-items: center; gap: 0.5em;">
+            <span style="flex: 1;">{review}</span>
+            <button
+              onclick={() => deleteReview(review)}
+              style="background: #ffdddd; border: 1px solid #ff8888; color: #990000; border-radius: 4px; padding: 0.2em 0.5em; cursor: pointer;">
+              Delete Review
+            </button>
+          </li>
+        {/each}
+      {:else}
+        <li><p>No reviews yet.</p></li>
+      {/if}
+    </ul>
 
       <!-- Bild wird direkt von der API übernommen -->
   <div class="image" style="flex: 1;">

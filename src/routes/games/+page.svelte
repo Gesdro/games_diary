@@ -3,13 +3,13 @@
 
 let { data } = $props();
 let searchQuery = $state('');
-  let selectedTag = $state ('All');
+  let selectedGenre = $state ('All');
 
   const filteredGames = $derived(() => { // Filtere die Spiele basierend auf dem ausgewählten Tag und der Suchanfrage
     return data.games.filter(game => {
       const tagMatch =
-        selectedTag === 'All' ||
-        game.tags?.some(tag => tag.trim().toLowerCase() === selectedTag.toLowerCase()); // Überprüfe, ob der Tag des Spiels mit dem ausgewählten Tag übereinstimmt
+        selectedGenre === 'All' ||
+        game.genres?.some(genres => genres.trim().toLowerCase() === selectedGenre.toLowerCase()); // Überprüfe, ob der Tag des Spiels mit dem ausgewählten Tag übereinstimmt
 
       const nameMatch =
         game.title?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -20,13 +20,13 @@ let searchQuery = $state('');
 </script>
 
 <div class="headercontainer mt-3">
-  <h1>🎮 Games Database</h1>
+  <h1> Games Database</h1>
   <p>Please choose your game, to add it to your database, to create more informations about your progress</p> <!-- Header Container-->
 </div>
 
 <div class="filter-container mt-3 mb-3">
-  <label for="tagFilter"><strong>Filter by Tag:</strong></label> <!-- Filterfunktion und Suchfenster-->
-  <select id="tagFilter" bind:value={selectedTag}>
+  <label for="tagFilter"><strong>Filter by Genre:</strong></label> <!-- Filterfunktion und Suchfenster-->
+  <select id="tagFilter" bind:value={selectedGenre}>
     <option>All</option>
     <option>Action</option>
     <option>RPG</option>

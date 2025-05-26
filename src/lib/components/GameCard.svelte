@@ -16,13 +16,13 @@
       Release: {game.releaseDate} <!-- Release-Datum des Spiels -->
     </div>
     <div>
-      Platform: {game.platform} <!-- Plattform des Spiels, z.B. PC, PS5, Xbox -->
+      Platform: {game.platforms} <!-- Plattform des Spiels, z.B. PC, PS5, Xbox -->
     </div>
     <div> 
       Rating: {game.rating} <!-- Bewertung des Spiels, z.B. 4.5/5 -->
     </div>
     <div>
-      Tags: {game.tags?.join(', ')}   <!-- Tags des Spiels, z.B. Action, RPG, Shooter -->
+      Genre: {game.genres?.join(', ')}   <!-- Tags des Spiels, z.B. Action, RPG, Shooter -->
 
     </div>
   </div>

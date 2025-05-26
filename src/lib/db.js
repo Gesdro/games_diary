@@ -85,10 +85,11 @@ async function createGameByName(name) {
     // Hier wird das Spiel in das Format gebracht, das in der Datenbank gespeichert werden soll
     const game = {
       title: apiGame.name,
+      platforms: apiGame.platforms?.map(p => p.platform.name).join(', ') || 'Unbekannt', // Plattformen werden zu einem String zusammengefügt
       description: apiGame.slug,
       releaseDate: apiGame.released,
       backgroundImage: apiGame.background_image || '/images/placeholder.jpg',
-      tags: apiGame.tags?.map(tag => tag.name) || [],
+      genres: apiGame.genres?.map(tag => tag.name) || [],
       createdAt: new Date()
     };
 

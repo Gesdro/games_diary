@@ -36,13 +36,13 @@
   </div>
 
   <div class="col-3"> <!--Wichtige Daten zu den Spielen wird gezeigt-->
-    <p>Release: {game.releaseDate}</p>
-    <p>Plaform: {game.platform}</p>
-    <p>Rating: {game.rating}</p>
-    <p>Tags:</p>
+    <p><b>Release:</b> {game.releaseDate}</p>
+    <p><b>Plaform:</b> {game.platforms}</p>
+    <p><b>Rating:</b> {game.rating}</p>
+    <p><b>Genre:</b></p>
     <ul>
-      {#each game.tags as tag}
-        <li>{tag}</li>
+      {#each game.genres as genre}
+        <li>{genre}</li>
       {/each}
     </ul>
 
