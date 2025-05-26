@@ -16,35 +16,35 @@
       </div>
     {/if}
 
-    <p><strong>Reviews:</strong></p>
+    <p><strong>Reviews:</strong></p> <!-- Reviews des Spiels, falls vorhanden -->
     <ul>
-      {#if game.reviews?.length}
+      {#if game.reviews?.length} 
         {#each game.reviews as review}
           <li>
             {review}
-            <form method="POST" action="?/deleteReview" style="display:inline;">
-              <input type="hidden" name="gameId" value={game._id} />
-              <input type="hidden" name="review" value={review} />
-              <button type="submit">Delete Review</button>
+            <form method="POST" action="?/deleteReview" style="display:inline;"> <!-- Inline-Formular für das Löschen der Review -->
+              <input type="hidden" name="gameId" value={game._id} /> <!-- Game ID für das Löschen der Review -->
+              <input type="hidden" name="review" value={review} /> <!-- Review-Text, um die spezifische Review zu identifizieren -->
+              <button type="submit">Delete Review</button> <!-- Button zum Löschen der Review -->
             </form>
           </li>
         {/each}
       {:else}
-        <li>No reviews yet.</li>
+        <li>No reviews yet.</li> <!-- Falls keine Reviews vorhanden sind, wird dies angezeigt -->
       {/if}
     </ul>
-    <form method="POST" action="?/addReview">
-      <input type="hidden" name="gameId" value={game._id} />
+    <form method="POST" action="?/addReview"> <!-- Formular zum Hinzufügen einer neuen Review -->
+      <input type="hidden" name="gameId" value={game._id} /> <!-- Game ID für das Hinzufügen der Review -->
       <input
         name="review"
         placeholder="Write a review..."
-        bind:value={newReview}
-      />
+        bind:value={newReview} 
+      /> <!-- Eingabefeld für die neue Review -->
       <button type="submit">Send Review</button>
     </form>
-    <form method="POST" action="?/deleteMyGame">
+    <form method="POST" action="?/deleteMyGame"> <!-- Formular zum Löschen des Spiels aus der eigenen Liste -->
       <input type="hidden" name="gameId" value={game._id} />
-      <button type="submit" style="background:red;color:white;">Delete Game</button>
+      <button type="submit" style="background:red;color:white;">Delete Game</button> <!-- Button zum Löschen des Spiels -->
     </form>
   </div>
 </div>

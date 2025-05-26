@@ -79,7 +79,8 @@ async function createGameByName(name) {
       return null;
     }
     const game = data.results[0];
-
+    // Es muss zwei mal eine Anfrage geamcht werde, damit die Detaildaten des Spiels abgerufen werden können
+    // Detaildaten des Spiels abrufen
     const detailRes = await fetch(`https://api.rawg.io/api/games/${game.id}?key=${apiKey}`);
     console.log('Detail Res:', detailRes);
     const detail = await detailRes.json();
@@ -218,6 +219,7 @@ async function addReviewToGame(gameId, review) {
     { $push: { reviews: review } }
   );
 }
+// Delte eine Review von einem Spiel in der my_games Collection
 async function deleteReviewFromGame(gameId, review) {
   const { db } = await connectToDatabase();
   return db.collection('my_games').updateOne(
@@ -225,10 +227,12 @@ async function deleteReviewFromGame(gameId, review) {
     { $pull: { reviews: review } }
   );
 }
+// Löscht ein Spiel aus der my_games Collection
 async function deleteMyGame(gameId) {
   const { db } = await connectToDatabase();
   return db.collection('my_games').deleteOne({ _id: new ObjectId(gameId) });
 }
+// Diese Funktion gibt alle Spiele aus der my_games Collection zurück
 async function getAllGames() {
   const { db } = await connectToDatabase();
   return db.collection('my_games').find().toArray();
@@ -236,6 +240,7 @@ async function getAllGames() {
 
 
 
+// Diese Funktion fügt ein neues Spiel in die my_games Collection ein
 async function addGame(gameData) {
   const { db } = await connectToDatabase();
   const result = await db.collection('my_games').insertOne(gameData);

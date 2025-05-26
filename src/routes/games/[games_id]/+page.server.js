@@ -18,7 +18,7 @@ export const actions = {
     throw redirect(303, "/games");
   },
 
-
+// Importiere die Funktion addReview von der DB.js
   addToMyGames: async ({ request }) => {
     const data = await request.formData();
     const gameId = data.get('gameId');

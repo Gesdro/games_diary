@@ -2,9 +2,9 @@ import { error } from '@sveltejs/kit';
 import fs from 'fs/promises';
 import path from 'path';
 
-const MOMENTS_PATH = 'static/uploads/moments'; // Stelle sicher, dass es diesen Ordner gibt!
+const MOMENTS_PATH = 'static/uploads/moments'; // Speicherort für hochgeladene Momente
 
-// Dummy-Loader: Listet alle hochgeladenen Momente (mit Bild)
+// Speichert die Bilder im JSON-Format in der Datei moments.json
 export async function load() {
   let moments = [];
   try {
@@ -15,7 +15,7 @@ export async function load() {
   }
   return { moments };
 }
-
+// Diese Funktion lädt die Momente aus der JSON-Datei und gibt sie zurück
 export const actions = {
   upload: async ({ request }) => {
     const data = await request.formData();
@@ -24,7 +24,7 @@ export const actions = {
     const file = data.get('image');
 
     if (!title || !description || !file || !file.name.endsWith('.jpg')) {
-      return { error: 'Bitte fülle alles aus und lade ein JPG hoch.' };
+      return { error: 'Please add all the data and choose a picture' };
     }
 
     // Bild speichern

@@ -32,8 +32,7 @@ let { data, form } = $props();
     </ul>
 
   
-
-
+<!-- Add to my Games, aufrug von der Server.js-->
 <form method="POST" action="?/addToMyGames">
   <input type="hidden" name="gameId" value={game._id} />
   <button type="submit">Add to my Games</button>
@@ -47,6 +46,7 @@ let { data, form } = $props();
 <h1>{game.name}</h1>
 <p>{game.description}</p>
 
+<!-- Einzelne Games in der Detail sicht löschen-->
   <form method="POST" action="?/delete">
       <input type="hidden" name="id" value={game._id}>
       <button class="btndanger">Delete Game</button>
