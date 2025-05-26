@@ -17,4 +17,16 @@ export const actions = {
     await db.deleteGame(data.get("id"));
     throw redirect(303, "/games");
   },
+
+
+  addToMyGames: async ({ request }) => {
+    const data = await request.formData();
+    const gameId = data.get('gameId');
+    try {
+      await db.addToMyGames(gameId);
+      return { success: true };
+    } catch (err) {
+      return { error: err.message || 'Unbekannter Fehler beim Hinzufügen.' };
+    }
+  }
 };

@@ -12,15 +12,11 @@
     return tagMatch && nameMatch;
   });
 
-  // Optional: Sammle alle Tags zum Filtern
-  $: allTags = Array.from(
-    new Set(
-      data.games.flatMap(game => game.tags ?? [])
-    )
-  );
 </script>
-
+<div class="headercontainer mt-3">
 <h1>My Games</h1>
+<p>Here you can see all my saved games. As well as my reviews. </p>
+</div>
 
 <div>
   <input
@@ -31,15 +27,6 @@
   />
 </div>
 
-<!-- Optional: Tag-Filter -->
-<div style="margin-top: 1rem;">
-  <select bind:value={selectedTag}>
-    <option value="All">All</option>
-    {#each allTags as tag}
-      <option value={tag}>{tag}</option>
-    {/each}
-  </select>
-</div>
 
 <div class="row mt-3">
   {#each filteredGames as game}

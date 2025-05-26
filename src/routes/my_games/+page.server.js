@@ -29,10 +29,10 @@ export const actions = {
     await db.deleteReviewFromGame(gameId, review);
     return { success: true };
   },
-  deleteGame: async ({ request }) => {
+  deleteMyGame: async ({ request }) => {
     const data = await request.formData();
     const gameId = data.get('gameId');
-    await db.deleteGame(gameId);
+    await db.deleteMyGame(gameId);
     return { success: true };
   }
 };

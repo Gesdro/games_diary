@@ -36,6 +36,10 @@
           <a class="nav-link active" aria-current="page" href="/my_games"
             >my Games</a>
         </li>
+                   <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/best_moments"
+            >Best Moments</a>
+        </li>
       </ul>
     </div>
   </div>

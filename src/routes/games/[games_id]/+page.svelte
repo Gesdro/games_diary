@@ -1,23 +1,8 @@
 <script>
-  let { data } = $props();
+let { data, form } = $props();
   let game = data.game;
-  let message = $state('');
 
-    async function addToMyGames() { // Funktion zum Hinzufügen des Spiels zu den eigenen Spielen
-    const res = await fetch('/api/my_games', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gameId: game._id })
-    });
-
-    if (res.ok) {
-      message = 'Game saved!'; // Erfolgreiches Hinzufügen des Spiels
-    } else {
-      const text = await res.text();
-      message = 'Error: ' + text;
-    }
-  }
-  console.log('Game:', game);
+   
 
 </script>
 
@@ -49,8 +34,15 @@
   
 
 
-<button onclick={addToMyGames}>Add to my Games</button>  <!-- Button zum Hinzufügen des Spiels zu den eigenen Spielen -->
-<p>{message}</p>
+<form method="POST" action="?/addToMyGames">
+  <input type="hidden" name="gameId" value={game._id} />
+  <button type="submit">Add to my Games</button>
+</form>
+{#if form?.success}
+  <p>Game saved!</p>
+{:else if form?.error}
+  <p class="text-danger">{form.error}</p>
+{/if}
 
 <h1>{game.name}</h1>
 <p>{game.description}</p>

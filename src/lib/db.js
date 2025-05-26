@@ -1,5 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb"; // See https://www.mongodb.com/docs/drivers/node/current/quick-start/
 import { DB_URI } from "$env/static/private"; // Datenbankanbindung aus der .env-Datei
+import { RAWG_API_KEY } from "$env/static/private";
 
 const client = new MongoClient(DB_URI);
 await client.connect();
@@ -12,8 +13,8 @@ const db = client.db("GamesDiary"); // Sucher der Datenbank
 
 // Verbindung zur Datenbank
 export async function connectToDatabase() {
-	if (!client.topology?.isConnected?.()) await client.connect();
-return { db, client };
+  if (!client.topology?.isConnected?.()) await client.connect();
+  return { db, client };
 }
 
 
@@ -57,7 +58,7 @@ async function getGame(id) {
     }
   } catch (error) {
     // TODO: errorhandling
-      console.error("DB Fehler in getGame:", error);
+    console.error("DB Fehler in getGame:", error);
 
   }
   return games;
@@ -67,35 +68,42 @@ async function getGame(id) {
 // Diese Funktion erstellt ein Spiel in der Datenbank, jedoch werden die Daten nur über die API abgerufen.
 
 async function createGameByName(name) {
-  const apiKey = process.env.RAWG_API_KEY; // API-Schlüssel für die RAWG API
+  const apiKey = RAWG_API_KEY; // API-Schlüssel für die RAWG API
   try {
     // Spiel über die API suchen
     const res = await fetch(`https://api.rawg.io/api/games?search=${encodeURIComponent(name)}&key=${apiKey}`);
     const data = await res.json(); // Antowrt wird als JSON eingehen und als Java Object gespeichert
     // ergebniss wird in data gespecihert
-
     if (!data.results || data.results.length === 0) {
       console.warn('Kein Spiel gefunden mit dem Namen:', name); // keine Spiele gefunden
       return null;
     }
+    const game = data.results[0];
+
+    const detailRes = await fetch(`https://api.rawg.io/api/games/${game.id}?key=${apiKey}`);
+    console.log('Detail Res:', detailRes);
+    const detail = await detailRes.json();
 
     const apiGame = data.results[0]; // Erster Treffer wird in ein Array gespeichert
 
     // Mapping auf dein Schema
     // Hier wird das Spiel in das Format gebracht, das in der Datenbank gespeichert werden soll
-    const game = {
-      title: apiGame.name,
-      platforms: apiGame.platforms?.map(p => p.platform.name).join(', ') || 'Unbekannt', // Plattformen werden zu einem String zusammengefügt
-      description: apiGame.slug,
-      releaseDate: apiGame.released,
-      backgroundImage: apiGame.background_image || '/images/placeholder.jpg',
-      genres: apiGame.genres?.map(tag => tag.name) || [],
+    const newGame = {
+      title: detail.name,
+      description: detail.description_raw || detail.description || 'Keine Beschreibung verfügbar.',
+      releaseDate: detail.released,
+      backgroundImage: detail.background_image ?? '/images/placeholder.jpg',
+      rating: detail.rating,
+      platforms: detail.platforms?.map((p) => p.platform.name) ?? [],
+      genres: detail.genres?.map((genre) => genre.name) ?? [],
+      website: detail.website ?? '',
+      metacritic: detail.metacritic ?? null,
       createdAt: new Date()
     };
 
-    
+
     const { db } = await connectToDatabase(); // Verbindung zur Datenbank herstellen
-    const result = await db.collection('games').insertOne(game); // Spiel in der MongoDB-Datenbank speichern
+    const result = await db.collection('games').insertOne(newGame); // Spiel in der MongoDB-Datenbank speichern
     return result.insertedId.toString(); // kompatibel mit MongoDB, gibt die ID des neu erstellten Spiels zurück
   } catch (error) {
     console.error('Fehler beim Erstellen des Spiels:', error.message);
@@ -160,7 +168,7 @@ export async function addToMyGames(gameId) {
 
 //Gleiche Funktion wie bei Games, jedoch werden die Spiele aus der Collection my_games geladen
 
- async function loadMyGames() {
+async function loadMyGames() {
   const { db } = await connectToDatabase();
 
   // Hier wird nun eine MongoDB Aggregation verwendet
@@ -168,7 +176,7 @@ export async function addToMyGames(gameId) {
     {
       $lookup: { // Joins-Operation zwischen den beiden Collections
         from: 'games',
-        localField: 'gameId', 
+        localField: 'gameId',
         foreignField: '_id',
         as: 'game'
       }
@@ -203,33 +211,36 @@ export async function addToMyGames(gameId) {
 
 //NEUE FUNKTIONEN 
 ////////////////////////////
- async function addReviewToGame(gameId, review) {
+async function addReviewToGame(gameId, review) {
   const { db } = await connectToDatabase();
   return db.collection('my_games').updateOne(
     { _id: new ObjectId(gameId) },
     { $push: { reviews: review } }
   );
 }
- async function deleteReviewFromGame(gameId, review) {
+async function deleteReviewFromGame(gameId, review) {
   const { db } = await connectToDatabase();
   return db.collection('my_games').updateOne(
     { _id: new ObjectId(gameId) },
     { $pull: { reviews: review } }
   );
 }
- async function deleteMyGame(gameId) {
+async function deleteMyGame(gameId) {
   const { db } = await connectToDatabase();
   return db.collection('my_games').deleteOne({ _id: new ObjectId(gameId) });
 }
- async function getAllGames() {
+async function getAllGames() {
   const { db } = await connectToDatabase();
   return db.collection('my_games').find().toArray();
 }
 
 
 
-
-
+async function addGame(gameData) {
+  const { db } = await connectToDatabase();
+  const result = await db.collection('my_games').insertOne(gameData);
+  return result.insertedId.toString();
+}
 
 
 
@@ -246,5 +257,6 @@ export default {
   addReviewToGame,
   deleteReviewFromGame,
   deleteMyGame,
-  getAllGames
+  getAllGames,
+  addGame
 };

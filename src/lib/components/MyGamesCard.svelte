@@ -7,6 +7,15 @@
   <div class="details">
     <div class="title">{game.title}</div>
     <p><strong>Progress:</strong> {game.progress || 'No Data'}</p>
+
+
+        <!-- Hier das Bild einfügen! -->
+    {#if game.backgroundImage}
+      <div class="image" style="margin-bottom: 1rem;">
+        <img src={game.backgroundImage} alt={game.title} style="max-width: 100%; border-radius: 8px;" />
+      </div>
+    {/if}
+
     <p><strong>Reviews:</strong></p>
     <ul>
       {#if game.reviews?.length}
@@ -28,14 +37,14 @@
       <input type="hidden" name="gameId" value={game._id} />
       <input
         name="review"
-        placeholder="Review schreiben"
+        placeholder="Write a review..."
         bind:value={newReview}
       />
-      <button type="submit">Review absenden</button>
+      <button type="submit">Send Review</button>
     </form>
-    <form method="POST" action="?/deleteGame">
+    <form method="POST" action="?/deleteMyGame">
       <input type="hidden" name="gameId" value={game._id} />
-      <button type="submit" style="background:red;color:white;">Game löschen</button>
+      <button type="submit" style="background:red;color:white;">Delete Game</button>
     </form>
   </div>
 </div>
